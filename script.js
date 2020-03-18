@@ -15,12 +15,17 @@ $(document).ready(function () {
         cities = JSON.parse(localStorage.getItem("cities")) || [];
         cityList.empty();
         for (i = 0; i < cities.length; i++) {
-            cityList.append($("<li>").addClass("list-group-item").attr("data-index", i).attr("id", "city-list-item").text(cities[i]));
+            cityList.append($("<li>").addClass("list-group-item").attr("data-index", i).addClass("city-list-item").text(cities[i]));
         }
     }
 
     function displayForecastInfo(result) {
-
+        // console.log(result.list);
+        var forecastRow = $("#forecast-row");
+        for (var i=0; i < result.list.length; i+=8) {
+            console.log(result.list[i]);
+            // var card = $("<div>").addClass("col-3").append($("<div>").addClass("card bg-primary text-white").append($()))
+        }
     }
 
     function addCity(city) {
@@ -56,7 +61,7 @@ $(document).ready(function () {
         }).then(function (result) {
             addCity(city);
             displayWeatherInfo(result);
-            console.log(result);
+            // console.log(result);
             $.ajax({
                 method: "GET",
                 url: "http://api.openweathermap.org/data/2.5/forecast",
@@ -76,8 +81,8 @@ $(document).ready(function () {
                         lon: result.city.coord.lon
                     }
                 }).then(function (result) {
-                    console.log("fart");
-                    console.log(result);
+                    // console.log("fart");
+                    // console.log(result);
                 });
 
             });
@@ -90,7 +95,8 @@ $(document).ready(function () {
     }
 
     
-    $("#city-list-item").on("click", function(event) {
+    $(".city-list-item").on("click", function(event) {
+        // console.log(event.target.dataset.index);
         getWeatherInfo(cities[parseInt(event.target.dataset.index)]);
         $("#city-display").text(cities[parseInt($(this).attr("data-index"))]);
     });
